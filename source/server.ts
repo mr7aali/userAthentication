@@ -1,21 +1,49 @@
 import app from "./app";
 import config from "./config";
-
+import { Server } from "http"
 import mongoose from 'mongoose';
 
 
-async function main() {
+process.on("uncaughtException", err => {
+    console.log("uncaughtException is detected !", err);
+    process.exit(1);
+})
+let server: Server;
+async function MyServer() {
+
     try {
         await mongoose.connect(config.databaseUrl as string);
-            console.log("🚀🚀 Database is connected successfully!");
+        console.log("🚀🚀 Database is connected successfully!");
 
-        app.listen(config.port, () => {
-            console.log(`🧑‍💻🧑‍💻 userAthentication app listening on port ${config.port}`)
+        server = app.listen(config.port, () => {
+            console.log(`🧑‍💻🧑‍💻 userAthentication server listening on port ${config.port}`)
         })
     }
     catch (err) {
         console.log("Database Error: fail to connect", err);
     }
+    process.on("unhandledRejection", error => {
+        if (server) {
+            server.close(() => {
+                console.log(error);
+                process.exit(1)
+            })
+        }
+        else {
+            process.exit(1)
+        }
+    })
 
 }
-main();
+MyServer();
+
+
+
+// console.log(x);
+
+process.on("SIGTERM", () => {
+    console.log("SIGTERM is received!");
+    if (server) {
+        server.close();
+    }
+})
