@@ -1,16 +1,26 @@
-import { Model } from "mongoose";
+import { HydratedDocument, Model } from "mongoose";
 
-export interface IUser{
-    // id:string;
-    firstName:string;
-    lastName:string;
-    email:string;
-    password:string;
-    role:string;
+export interface IUser {
+  // id:string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  role: string;
 }
-interface IUserMethods {
-    fullName(): string;
-  }
-  
-export type UserModel = Model<IUser, {}, IUserMethods>;
+
+
+
+//instance methods
+export interface IUserMethods {
+  fullName(): string;
+}
+
+//static
+export interface UserModel extends Model<IUser, Record<string, unknown>, IUserMethods> {
+  createWithFullName(name: string): Promise<HydratedDocument<IUser, IUserMethods>>;
+  fullName(): string;
+}
+
+// export type UserModel = Model<IUser, Record<string, unknown>, IUserMethods>;
 // export type UserModel = Model<IUser, Record<string, unknown>>;

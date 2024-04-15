@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
-import { IUser, UserModel } from "./user.interface";
+import { IUser, IUserMethods, UserModel } from "./user.interface";
 
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<IUser, UserModel, IUserMethods>({
     firstName: {
         type: String,
         required: true,
@@ -26,6 +26,14 @@ const userSchema = new Schema<IUser>({
 }, {
     timestamps: true
 });
+
+userSchema.statics.fullName = async function () {
+    
+}
+// userSchema.method('fullName', function fullName(): string {
+//     return this.firstName + ' ' + this.lastName;
+// });
+
 
 // const User = model<IUser>('User', userSchema);
 export const User = model<IUser, UserModel>('User', userSchema);

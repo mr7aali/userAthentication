@@ -1,33 +1,15 @@
-
-import { NextFunction, Request, Response } from "express";
+import { IUser } from './user.interface';
+import { Request, Response } from "express";
 import { userService } from "./user.service";
-import CatchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
+import CatchAsync from "../../../shared/CatchAsync";
 
-// const create = async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//         const data = req.body;
-//         const result = await userService.create(data);
-//         res.status(200).json({
-//             success: true,
-//             message: "user created successfully!",
-//             data: result
-//         })
-//     } catch (err) {
-//         next(err);
-//     }
-// };
 const create = CatchAsync(
 
     async (req: Request, res: Response) => {
 
         const data = req.body;
         const result = await userService.create(data);
-        // res.status(200).json({
-        //     success: true,
-        //     message: "user created successfully!",
-        //     data: result
-        // })
         sendResponse(res, {
             statusCode: 200,
             success: true,
@@ -35,12 +17,34 @@ const create = CatchAsync(
             data: result
         })
     }
-
-
 )
 
+const getAll = CatchAsync(
+    async (req: Request, res: Response) => {
+        const result = await userService.getAll();
+
+        sendResponse<IUser[]>(res, {
+            statusCode: 200,
+            success: true,
+            message: "All users retrieved successfully!",
+            data: result
+        })
+    }
+);
+const getSingle = CatchAsync(
+    async (req: Request, res: Response) => {
+        const id = req.params.id;
+        const result = await userService.getSingle(id);
+        sendResponse<IUser | null>(res, {
+            statusCode: 200,
+            success: true,
+            message: "User retrieved successfully!",
+            data: result
+        })
+    }
+);
 
 
 export const userController = {
-    create
+    create, getAll, getSingle
 }

@@ -4,6 +4,7 @@ import { IGenericErrorMessage } from "../../../interfaces/error";
 import handleValidationError from "../../errors/handleValidationError";
 import CustomError from "../../errors/CustomError";
 import handleMongoServerError from "../../errors/handleMongoServerError";
+import handleCastError from "../../errors/handleCastError";
 
 
 
@@ -38,13 +39,21 @@ const globalErrorHandler: ErrorRequestHandler = (
             message: error.message
         }] : [];
     }
+    else if (error.name === "CastError") {
+        const result = handleCastError(error);
+        message = result.message;
+        errorMessages = result.errorMessages;
+        statusCode = result.statusCode;
+    }
     else if (error instanceof Error) {
+
         message = error.message;
         errorMessages = error?.message ? [{
             path: error.name,
             message: error.message
         }] : [];
     }
+
 
     res.status(statusCode).json({
         success: false,
