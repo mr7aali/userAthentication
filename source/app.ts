@@ -18,7 +18,19 @@ app.use("/api/v1/user", userRoutes);
 
 //globalError handler
 app.use(globalErrorHandler);
-
+//not found
+app.use((req,res,next)=>{
+    res.status(404).json({
+        success: false,
+        message: 'API not found',
+        errorMessages: [
+            {
+              path: req.originalUrl,
+              message: 'API Not Found',
+            },
+          ],
+    })
+})
 //testing
 app.get('/', (req: Request, res: Response) => {
     res.send('usrAthentication responsed successfully!')

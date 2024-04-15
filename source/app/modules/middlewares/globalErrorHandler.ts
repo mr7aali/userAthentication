@@ -3,6 +3,7 @@ import config from "../../../config";
 import { IGenericErrorMessage } from "../../../interfaces/error";
 import handleValidationError from "../../errors/handleValidationError";
 import CustomError from "../../errors/CustomError";
+import handleMongoServerError from "../../errors/handleMongoServerError";
 
 
 
@@ -21,6 +22,12 @@ const globalErrorHandler: ErrorRequestHandler = (
         const result = handleValidationError(error);
         message = result.message;
         errorMessages = result.errorMessages;
+        statusCode = result.statusCode;
+    }
+    else if (error.name === "MongoServerError") {
+        const result = handleMongoServerError(error);
+        message = result.message,
+            errorMessages = result.errorMessages;
         statusCode = result.statusCode;
     }
     else if (error instanceof CustomError) {
@@ -44,7 +51,7 @@ const globalErrorHandler: ErrorRequestHandler = (
         message,
         errorMessages,
         stack: config.env === "production" ? undefined : error.stack,
-        // error
+        // err: error
     })
 }
 
