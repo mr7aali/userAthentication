@@ -23,7 +23,7 @@ const getSingle = async (id: string): Promise<IUser | null> => {
     }
     return result;
 }
-const update = async (id: string, data: Partial<IUser>): Promise<any> => {
+const update = async (id: string, data: Partial<IUser>): Promise<IUser> => {
     const result = await User.findByIdAndUpdate(id, data, { new: true });
     if (!result) {
         throw new CustomError(404, "Users not found!");

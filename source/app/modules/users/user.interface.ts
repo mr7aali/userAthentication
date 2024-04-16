@@ -1,12 +1,11 @@
 import { HydratedDocument, Model } from "mongoose";
 
 export interface IUser {
-  // id:string;
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  role: string;
+  role: 'admin' | 'superAdmin' | 'user'
 }
 
 
