@@ -28,7 +28,7 @@ const globalErrorHandler: ErrorRequestHandler = (
     else if (error.name === "MongoServerError") {
         const result = handleMongoServerError(error);
         message = result.message,
-            errorMessages = result.errorMessages;
+        errorMessages = result.errorMessages;
         statusCode = result.statusCode;
     }
     else if (error instanceof CustomError) {

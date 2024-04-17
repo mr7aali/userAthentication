@@ -38,9 +38,7 @@ async function MyServer() {
 MyServer();
 
 
-
 // console.log(x);
-
 process.on("SIGTERM", () => {
     console.log("SIGTERM is received!");
     if (server) {

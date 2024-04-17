@@ -17,6 +17,10 @@ app.use("/api/v1/", router);
 
 //globalError handler
 app.use(globalErrorHandler);
+//testing
+app.get('/', (req: Request, res: Response) => {
+  res.send('usrAthentication responsed successfully!')
+})
 //not found
 app.use((req,res,next)=>{
     res.status(404).json({
@@ -30,9 +34,6 @@ app.use((req,res,next)=>{
           ],
     })
 })
-//testing
-app.get('/', (req: Request, res: Response) => {
-    res.send('usrAthentication responsed successfully!')
-})
+
 
 export default app;
