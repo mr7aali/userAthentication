@@ -1,7 +1,9 @@
 import { Schema, model } from "mongoose";
-import { IUser, IUserMethods, UserModel } from "./user.interface";
-
-const userSchema = new Schema<IUser, UserModel, IUserMethods>({
+import { IUser, IUserMethods, IUserModel } from "./user.interface";
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import config from "../../../config";
+const userSchema = new Schema<IUser, IUserModel, IUserMethods>({
     firstName: {
         type: String,
         required: true,
@@ -13,7 +15,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
     email: {
         type: String,
         required: true,
-        //! unique: true
+        unique: true
     },
     password: {
         type: String,
@@ -22,18 +24,23 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
     role: {
         type: String,
         required: true,
+    },
+    projectId: {
+        type: String,
+        required: true,
     }
 }, {
     timestamps: true
 });
 
 userSchema.statics.fullName = async function () {
-    
+
 }
-// userSchema.method('fullName', function fullName(): string {
-//     return this.firstName + ' ' + this.lastName;
-// });
-
-
-// const User = model<IUser>('User', userSchema);
-export const User = model<IUser, UserModel>('User', userSchema);
+userSchema.pre("save", async function (next) {
+    this.password = await bcrypt.hash(this.password, Number(config.bcryptSaltRounds));
+    next();
+})
+export const UserModel = (collectionName: string): IUserModel => {
+    return mongoose.model<IUser, IUserModel>(collectionName, userSchema);
+};
+// export const User = model<IUser, IUserModel>('User', userSchema, "fuck2");

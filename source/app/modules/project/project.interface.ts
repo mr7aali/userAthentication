@@ -6,6 +6,8 @@ export interface IProject {
     adminEmail: string;
     adminPassword: string;
     projectName: string;
+    status: "active" | "disable" | "banned";
+    collectionName: string;
 }
 
 //instance methods

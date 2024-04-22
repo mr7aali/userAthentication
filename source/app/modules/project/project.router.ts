@@ -6,6 +6,7 @@ const router = express.Router();
 router.post("/create", projectController.create);
 router.patch("/update/:id",projectController.update);
 router.get("/get",projectController.getAll);
-router.get("/get/:id",projectController.getSingle)
+router.get("/get/:id",projectController.getSingle);
+router.post("/create-project-token/:id",projectController.createProjectToken)
 
 export const projectRouer = router;

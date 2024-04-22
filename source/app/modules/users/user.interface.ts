@@ -5,7 +5,8 @@ export interface IUser {
   lastName: string;
   email: string;
   password: string;
-  role: 'admin' | 'superAdmin' | 'user'
+  role: 'admin' | 'superAdmin' | 'user';
+  projectId: string;
 }
 
 
@@ -16,10 +17,11 @@ export interface IUserMethods {
 }
 
 //static
-export interface UserModel extends Model<IUser, Record<string, unknown>, IUserMethods> {
+export interface IUserModel extends Model<IUser, Record<string, unknown>, IUserMethods> {
   createWithFullName(name: string): Promise<HydratedDocument<IUser, IUserMethods>>;
   fullName(): string;
 }
 
 // export type UserModel = Model<IUser, Record<string, unknown>, IUserMethods>;
 // export type UserModel = Model<IUser, Record<string, unknown>>;
+

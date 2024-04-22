@@ -51,7 +51,18 @@ const getSingle = CatchAsync(
         })
     }
 );
-
+const createProjectToken = CatchAsync(
+    async (req, res) => {
+        const id = req.params.id;
+        const result = await projectService.createProjectToken(id);
+        sendResponse<{token:string}>(res, {
+            success: true,
+            statusCode: 200,
+            message: "Project's Token retrieved successsfully!",
+            data: result
+        })
+    }
+)
 export const projectController = {
-    create, update, getAll, getSingle
+    create, update, getAll, getSingle, createProjectToken
 }

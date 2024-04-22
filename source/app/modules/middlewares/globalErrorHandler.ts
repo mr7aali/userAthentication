@@ -19,6 +19,9 @@ const globalErrorHandler: ErrorRequestHandler = (
     let message = "Something went wrong!";
     let errorMessages: IGenericErrorMessage[] = [];
 
+
+
+
     if (error.name === "ValidationError") {
         const result = handleValidationError(error);
         message = result.message;
@@ -55,12 +58,16 @@ const globalErrorHandler: ErrorRequestHandler = (
     }
 
 
+
+
+
+
     res.status(statusCode).json({
         success: false,
         message,
         errorMessages,
         stack: config.env === "production" ? undefined : error.stack,
-        // err: error
+        err: error
     })
 }
 

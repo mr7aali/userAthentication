@@ -1,3 +1,4 @@
+import { tokenEncode } from "../../../utils/token";
 import CustomError from "../../errors/CustomError";
 import { IProject } from "./project.interface"
 import { Project } from "./project.model"
@@ -30,7 +31,23 @@ const getSingle = async (id: string): Promise<IProject> => {
     }
     return result;
 }
+const createProjectToken = async (id: string): Promise<{ token: string }> => {
+
+    const project = await Project.findById(id);
+    if (!project) {
+        throw new CustomError(404, "Project not found!");
+    }
+    const tokenData = {
+        _id: project._id as unknown as string,
+        adminEmail: project.adminEmail,
+        collectionName: project.collectionName
+    }
+    const result = tokenEncode(tokenData);
+    return {
+        token: result
+    }
+}
 
 export const projectService = {
-    create, update, getAll, getSingle
+    create, update, getAll, getSingle, createProjectToken
 }
