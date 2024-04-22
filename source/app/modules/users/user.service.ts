@@ -1,11 +1,16 @@
 import { IProjectTokenPayload } from '../../../interfaces/token';
 import CustomError from '../../errors/CustomError';
+import { Project } from '../project/project.model';
 import { IUser } from './user.interface';
 import { UserModel } from './user.model';
 
 
 const create = async (data: IUser, projectDetails: IProjectTokenPayload): Promise<IUser> => {
-
+    const project = await Project.findById(projectDetails._id);
+    if (!project) {
+        throw new CustomError(404, "Collection not found!")
+    }
+   
     const userModel = UserModel(projectDetails.collectionName);
     const result = await userModel.create(data);
     // const result = await User.create(data);
@@ -15,6 +20,11 @@ const create = async (data: IUser, projectDetails: IProjectTokenPayload): Promis
     return result;
 };
 const getAll = async (projectDetails: IProjectTokenPayload): Promise<IUser[]> => {
+   
+    const project = await Project.findById(projectDetails._id);
+    if (!project) {
+        throw new CustomError(404, "Collection not found!")
+    }
     const userModel = UserModel(projectDetails.collectionName);
     const result = await userModel.find({});
     if (result.length < 1) {
@@ -22,7 +32,11 @@ const getAll = async (projectDetails: IProjectTokenPayload): Promise<IUser[]> =>
     }
     return result;
 }
-const getSingle = async (id: string,projectDetails:IProjectTokenPayload): Promise<IUser | null> => {
+const getSingle = async (id: string, projectDetails: IProjectTokenPayload): Promise<IUser | null> => {
+    const project = await Project.findById(projectDetails._id);
+    if (!project) {
+        throw new CustomError(404, "Collection not found!")
+    }
     const userModel = UserModel(projectDetails.collectionName);
     const result = await userModel.findById(id);
     if (!result) {
@@ -30,7 +44,12 @@ const getSingle = async (id: string,projectDetails:IProjectTokenPayload): Promis
     }
     return result;
 }
-const update = async (id: string, data: Partial<IUser>,projectDetails:IProjectTokenPayload): Promise<IUser> => {
+const update = async (id: string, data: Partial<IUser>, projectDetails: IProjectTokenPayload): Promise<IUser> => {
+    const project = await Project.findById(projectDetails._id);
+    if (!project) {
+        throw new CustomError(404, "Collection not found!")
+    }
+    
     const userModel = UserModel(projectDetails.collectionName);
     const result = await userModel.findByIdAndUpdate(id, data, { new: true });
     if (!result) {

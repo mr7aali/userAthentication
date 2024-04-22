@@ -23,7 +23,7 @@ const projectSchema = new Schema<IProject, ProjectModel, IProjectMethods>({
         type: String,
         required: true,
     },
-    collectionName:{
+    collectionName: {
         type: String,
         required: true,
         unique: true
@@ -36,5 +36,9 @@ const projectSchema = new Schema<IProject, ProjectModel, IProjectMethods>({
 }, {
     timestamps: true
 });
+projectSchema.statics.projectInfo = async function (data: { _id: string }) {
+    const result = await this.findById(data._id);
+    return result;
+}
 
 export const Project = model<IProject, ProjectModel>("Project", projectSchema);

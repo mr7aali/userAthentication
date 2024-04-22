@@ -19,4 +19,5 @@ export interface IProjectMethods {
 export interface ProjectModel extends Model<IProject, Record<string, unknown>, IProjectMethods> {
     createWithFullName(name: string): Promise<HydratedDocument<IProject, IProjectMethods>>;
     fullName(): string;
+    projectInfo(data:{_id:string}): IProject | null;
 }
