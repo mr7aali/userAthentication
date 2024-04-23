@@ -55,14 +55,28 @@ const createProjectToken = CatchAsync(
     async (req, res) => {
         const id = req.params.id;
         const result = await projectService.createProjectToken(id);
-        sendResponse<{token:string}>(res, {
+        sendResponse<{ token: string }>(res, {
             success: true,
             statusCode: 200,
             message: "Project's Token retrieved successsfully!",
             data: result
         })
     }
-)
+);
+const deleteSingle = CatchAsync(
+    async (req, res) => {
+        const id = req.params.id;
+        const result = await projectService.deleteSingle(id);
+        sendResponse<any>(res, {
+            success: true,
+            statusCode: 200,
+            message: "The project has been deleted!",
+            data: result
+        })
+    }
+);
+
 export const projectController = {
-    create, update, getAll, getSingle, createProjectToken
+    create, update, getAll, getSingle, createProjectToken, deleteSingle
+
 }

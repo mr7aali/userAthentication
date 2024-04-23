@@ -1,7 +1,10 @@
+import mongoose from "mongoose";
 import { tokenEncode } from "../../../utils/token";
 import CustomError from "../../errors/CustomError";
 import { IProject } from "./project.interface"
 import { Project } from "./project.model"
+import { Collection } from 'mongoose';
+import { UserModel } from "../users/user.model";
 
 const create = async (data: IProject): Promise<IProject> => {
     const result = await Project.create(data);
@@ -32,7 +35,6 @@ const getSingle = async (id: string): Promise<IProject> => {
     return result;
 }
 const createProjectToken = async (id: string): Promise<{ token: string }> => {
-
     const project = await Project.findById(id);
     if (!project) {
         throw new CustomError(404, "Project not found!");
@@ -47,7 +49,18 @@ const createProjectToken = async (id: string): Promise<{ token: string }> => {
         token: result
     }
 }
+const deleteSingle = async (id: string): Promise<any> => {
+    const project = await Project.findById(id);
+    if (!project) {
+        throw new CustomError(404, "Project not found!");
+    }
+    const isDelete = await mongoose.connection.dropCollection(project.collectionName);
+    console.log(isDelete);
+
+    return project;
+
+}
 
 export const projectService = {
-    create, update, getAll, getSingle, createProjectToken
+    create, update, getAll, getSingle, createProjectToken, deleteSingle
 }

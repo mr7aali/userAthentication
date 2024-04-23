@@ -10,7 +10,7 @@ const create = async (data: IUser, projectDetails: IProjectTokenPayload): Promis
     if (!project) {
         throw new CustomError(404, "Collection not found!")
     }
-   
+    data.projectId = projectDetails._id;
     const userModel = UserModel(projectDetails.collectionName);
     const result = await userModel.create(data);
     // const result = await User.create(data);
@@ -20,7 +20,7 @@ const create = async (data: IUser, projectDetails: IProjectTokenPayload): Promis
     return result;
 };
 const getAll = async (projectDetails: IProjectTokenPayload): Promise<IUser[]> => {
-   
+
     const project = await Project.findById(projectDetails._id);
     if (!project) {
         throw new CustomError(404, "Collection not found!")
@@ -49,7 +49,7 @@ const update = async (id: string, data: Partial<IUser>, projectDetails: IProject
     if (!project) {
         throw new CustomError(404, "Collection not found!")
     }
-    
+
     const userModel = UserModel(projectDetails.collectionName);
     const result = await userModel.findByIdAndUpdate(id, data, { new: true });
     if (!result) {

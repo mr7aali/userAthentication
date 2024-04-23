@@ -2,6 +2,7 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from "cors";
 import globalErrorHandler from './app/modules/middlewares/globalErrorHandler';
 import router from './app/routes';
+import mongoose from 'mongoose';
 
 const app: Application = express();
 
@@ -19,8 +20,10 @@ app.use("/api/v1/", router);
 //globalError handler
 app.use(globalErrorHandler);
 //testing
-app.get('/', (req: Request, res: Response) => {
+app.get('/', async (req: Request, res: Response) => {
   
+
+
   res.status(200).json({ message: '(Bismillahir Rahmanir Raheem) => serAthentication responsed successfully!' })
 
 });

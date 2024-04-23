@@ -7,6 +7,7 @@ router.post("/create", projectController.create);
 router.patch("/update/:id",projectController.update);
 router.get("/get",projectController.getAll);
 router.get("/get/:id",projectController.getSingle);
-router.post("/create-project-token/:id",projectController.createProjectToken)
+router.post("/create-project-token/:id",projectController.createProjectToken);
+router.delete("/delete/:id",projectController.deleteSingle)
 
 export const projectRouer = router;
