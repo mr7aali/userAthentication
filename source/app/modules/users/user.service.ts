@@ -1,3 +1,6 @@
+import { paginationHelpers } from '../../../helpers/paginationHelpers';
+import { IPaginationOptons } from '../../../interfaces/pagination';
+import { IGenericMetaResponse } from '../../../interfaces/responseType';
 import { IProjectTokenPayload } from '../../../interfaces/token';
 import CustomError from '../../errors/CustomError';
 import { Project } from '../project/project.model';
@@ -19,18 +22,30 @@ const create = async (data: IUser, projectDetails: IProjectTokenPayload): Promis
     }
     return result;
 };
-const getAll = async (projectDetails: IProjectTokenPayload): Promise<IUser[]> => {
+
+const getAll = async (projectDetails: IProjectTokenPayload, IPaginationOptons: IPaginationOptons): Promise<IGenericMetaResponse<IUser[]>> => {
+    const { page, limit, skip, sortBy, sortOrder } =
+        paginationHelpers.calculatePagination(IPaginationOptons);
 
     const project = await Project.findById(projectDetails._id);
     if (!project) {
         throw new CustomError(404, "Collection not found!")
     }
     const userModel = UserModel(projectDetails.collectionName);
-    const result = await userModel.find({});
+    const result = await userModel.find({}).sort().skip(skip).limit(limit);
+    // const result = await userModel.find({});
     if (result.length < 1) {
         throw new CustomError(404, "Users not found!");
     }
-    return result;
+
+    const total = await userModel.countDocuments();
+
+    return {
+        meta: {
+            page, limit, total,
+        },
+        data: result
+    };
 }
 const getSingle = async (id: string, projectDetails: IProjectTokenPayload): Promise<IUser | null> => {
     const project = await Project.findById(projectDetails._id);

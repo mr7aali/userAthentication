@@ -4,6 +4,9 @@ import { userService } from "./user.service";
 import sendResponse from "../../../shared/sendResponse";
 import CatchAsync from "../../../shared/CatchAsync";
 import { IProjectTokenPayload } from '../../../interfaces/token';
+import pick from '../../../shared/pick';
+import { IPaginationOptons } from '../../../interfaces/pagination';
+import { IGenericMetaResponse } from '../../../interfaces/responseType';
 
 const create = CatchAsync(
 
@@ -23,13 +26,16 @@ const create = CatchAsync(
 const getAll = CatchAsync(
     async (req: Request, res: Response) => {
         const projectDetails: IProjectTokenPayload = req.projectDetails;
-        const result = await userService.getAll(projectDetails);
+        const paginationOptions: IPaginationOptons = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder']);
+        console.log(paginationOptions);
+        const result = await userService.getAll(projectDetails, paginationOptions);
 
         sendResponse<IUser[]>(res, {
             statusCode: 200,
             success: true,
             message: `All users retrieved successfully from ${projectDetails.collectionName}!`,
-            data: result
+            data: result.data,
+            meta:result.meta
         })
     }
 );
