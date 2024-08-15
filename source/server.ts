@@ -13,10 +13,10 @@ async function MyServer() {
 
     try {
         await mongoose.connect(config.databaseUrl as string);
-        console.log("🚀🚀 Database is connected successfully!");
+        console.log("🚀🚀 mongoDB is connected successfully!");
 
         server = app.listen(config.port, () => {
-            console.log(`🧑‍💻🧑‍💻 userAthentication server listening on port ${config.port}`)
+            console.log(`🧑‍💻🧑‍💻 settleAccount server listening on port ${config.port}`)
         })
     }
     catch (err) {

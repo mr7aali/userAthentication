@@ -3,21 +3,18 @@ import { Request, Response } from "express";
 import { userService } from "./user.service";
 import sendResponse from "../../../shared/sendResponse";
 import CatchAsync from "../../../shared/CatchAsync";
-import { IProjectTokenPayload } from '../../../interfaces/token';
 import pick from '../../../shared/pick';
 import { IPaginationOptons } from '../../../interfaces/pagination';
-import { IGenericMetaResponse } from '../../../interfaces/responseType';
 
 const create = CatchAsync(
 
     async (req: Request, res: Response) => {
         const data = req.body;
-        const projectDetails: IProjectTokenPayload = req.projectDetails;
-        const result = await userService.create(data, projectDetails);
+        const result = await userService.create(data);
         sendResponse(res, {
             statusCode: 200,
             success: true,
-            message: `user created successfully to ${projectDetails.collectionName}!`,
+            message: `user created successfully!`,
             data: result
         })
     }
@@ -25,29 +22,28 @@ const create = CatchAsync(
 
 const getAll = CatchAsync(
     async (req: Request, res: Response) => {
-        const projectDetails: IProjectTokenPayload = req.projectDetails;
+
         const paginationOptions: IPaginationOptons = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder']);
         console.log(paginationOptions);
-        const result = await userService.getAll(projectDetails, paginationOptions);
+        const result = await userService.getAll(paginationOptions);
 
         sendResponse<IUser[]>(res, {
             statusCode: 200,
             success: true,
-            message: `All users retrieved successfully from ${projectDetails.collectionName}!`,
+            message: `All users retrieved successfully!`,
             data: result.data,
-            meta:result.meta
+            meta: result.meta
         })
     }
 );
 const getSingle = CatchAsync(
     async (req: Request, res: Response) => {
         const id = req.params.id;
-        const projectDetails: IProjectTokenPayload = req.projectDetails;
-        const result = await userService.getSingle(id, projectDetails);
+        const result = await userService.getSingle(id);
         sendResponse<IUser | null>(res, {
             statusCode: 200,
             success: true,
-            message: `User retrieved successfully from ${projectDetails.collectionName}!`,
+            message: `User retrieved successfully!`,
             data: result
         })
     }
@@ -57,12 +53,11 @@ const update = CatchAsync(
     async (req: Request, res: Response) => {
         const id = req.params.id;
         const data = req.body;
-        const projectDetails: IProjectTokenPayload = req.projectDetails;
-        const result = await userService.update(id, data, projectDetails);
+        const result = await userService.update(id, data);
         sendResponse<IUser>(res, {
             statusCode: 200,
             success: true,
-            message: `User data update successfully to ${projectDetails.collectionName}!`,
+            message: `User data update successfully!`,
             data: result
         })
     }

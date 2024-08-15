@@ -1,10 +1,10 @@
 import { Response, Request, NextFunction, ErrorRequestHandler } from "express";
-import config from "../../../config";
-import { IGenericErrorMessage } from "../../../interfaces/error";
-import handleValidationError from "../../errors/handleValidationError";
-import CustomError from "../../errors/CustomError";
-import handleMongoServerError from "../../errors/handleMongoServerError";
-import handleCastError from "../../errors/handleCastError";
+import config from "../../config";
+import { IGenericErrorMessage } from "../../interfaces/error";
+import handleValidationError from "../errors/handleValidationError";
+import CustomError from "../errors/CustomError";
+import handleMongoServerError from "../errors/handleMongoServerError";
+import handleCastError from "../errors/handleCastError";
 
 
 

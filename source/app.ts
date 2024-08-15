@@ -1,6 +1,6 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from "cors";
-import globalErrorHandler from './app/modules/middlewares/globalErrorHandler';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import router from './app/routes';
 import mongoose from 'mongoose';
 
@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 //routes
-app.use("/api/v1/", router);
+app.use("/", router);
 
 //globalError handler
 app.use(globalErrorHandler);
