@@ -23,5 +23,4 @@ ReadyAuth is a lightweight backend system built with **Express.js**, **MongoDB**
 
 ---
 
-## 📂 Folder Structure
 
