@@ -10,7 +10,7 @@ ReadyAuth is a lightweight backend system built with **Express.js**, **MongoDB**
 - CRUD operations for managing users
 - MongoDB with Mongoose ODM
 - Environment-based configuration
-- Built-in security (Helmet, CORS, bcrypt)
+- Built-in security (, CORS, bcrypt)
 
 ---
 
@@ -19,7 +19,7 @@ ReadyAuth is a lightweight backend system built with **Express.js**, **MongoDB**
 - **Backend**: Express.js
 - **Database**: MongoDB (Mongoose)
 - **Authentication**: JWT
-- **Security**: bcrypt, CORS, Helmet
+- **Security**: bcrypt, CORS, 
 
 ---
 
