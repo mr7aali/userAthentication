@@ -1,22 +1,27 @@
-# User Creation API Documentation
+# 🔐 ReadyAuth – Simple User Management Backend
 
-## Overview
-This API endpoint allows for the creation of a new user in the system. It accepts user details through a POST request and returns the created user data along with a status message.
+ReadyAuth is a lightweight backend system built with **Express.js**, **MongoDB**, and **Mongoose**, inspired by Firebase-style user management. It allows companies to register and manage their own users under their accounts.
 
-## API Endpoint
-**URL:** `http://localhost:5000/user/create`
+## 🚀 Features
 
-**Method:** `POST`
+- Company-based account registration & authentication
+- Secure JWT-based authentication
+- Role-based user management under each company
+- CRUD operations for managing users
+- MongoDB with Mongoose ODM
+- Environment-based configuration
+- Built-in security (Helmet, CORS, bcrypt)
 
-## Request Data
+---
 
-The API expects the following JSON data in the request body:
+## 🛠 Tech Stack
 
-```json
-{
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "123@gmail.com",
-  "password": "123",
-  "role": "user"
-}
+- **Backend**: Express.js
+- **Database**: MongoDB (Mongoose)
+- **Authentication**: JWT
+- **Security**: bcrypt, CORS, Helmet
+
+---
+
+## 📂 Folder Structure
+
